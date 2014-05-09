@@ -32,6 +32,8 @@ static int ceph_lock_message(u8 lock_type, u16 operation, struct file *file,
 	else
 		length = fl->fl_end - fl->fl_start + 1;
 
+	owner = secure_addr(fl->fl_owner);
+
 	dout("ceph_lock_message: rule: %d, op: %d, pid: %llu, start: %llu, "
 	     "length: %llu, wait: %d, type: %d", (int)lock_type,
 	     (int)operation, (u64)fl->fl_pid, fl->fl_start,
@@ -287,6 +289,8 @@ int lock_to_ceph_filelock(struct file_lock *lock,
 	cephlock->pid = cpu_to_le64(lock->fl_pid);
 	cephlock->pid_namespace =
 	        cpu_to_le64((u64)(unsigned long)lock->fl_nspid);
+
+	cephlock->owner = cpu_to_le64(secure_addr(lock->fl_owner));
 
 	switch (lock->fl_type) {
 	case F_RDLCK:
