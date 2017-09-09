@@ -1596,7 +1596,7 @@ static int attach_recursive_mnt(struct mount *source_mnt,
 		err = invent_group_ids(source_mnt, true);
 		if (err)
 			goto out;
-		err = propagate_mnt(dest_mnt, dest_mp, source_mnt, &tree_list);
+		err = propagate_mnt(dest_mnt, dest_dentry, source_mnt, &tree_list);
 		br_write_lock(&vfsmount_lock);
 		if (err)
 			goto out_cleanup_ids;
@@ -1625,7 +1625,7 @@ static int attach_recursive_mnt(struct mount *source_mnt,
  out_cleanup_ids:
 	while (!list_empty(&tree_list)) {
 		child = list_first_entry(&tree_list, struct mount, mnt_hash);
-		umount_tree(child, 0);
+		umount_tree(child, 0, &tree_list);
 	}
 	br_write_unlock(&vfsmount_lock);
 	cleanup_group_ids(source_mnt, NULL);

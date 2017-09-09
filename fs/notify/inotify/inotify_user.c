@@ -742,6 +742,7 @@ SYSCALL_DEFINE3(inotify_add_watch, int, fd, const char __user *, pathname,
 	struct path *canonical_path = &path;
 	struct fd f;
 	int ret;
+	struct file *filp;
 	unsigned flags = 0;
 
 	/* don't allow invalid bits: we don't want flags set */

@@ -199,6 +199,7 @@ static struct mount *next_group(struct mount *m, struct mount *origin)
 /* all accesses are serialized by namespace_sem */
 static struct user_namespace *user_ns;
 static struct mount *last_dest, *last_source, *dest_master;
+static struct dentry *mp_dentry;
 static struct mountpoint *mp;
 static struct list_head *list;
 
