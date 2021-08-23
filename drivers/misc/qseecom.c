@@ -1658,6 +1658,11 @@ static int qseecom_unload_app(struct qseecom_dev_handle *data,
 		goto unload_exit;
 	}
 
+	if (!memcmp(data->client.app_name, "fpctzappfingerprint", strlen("fpctzappfingerprint"))) {
+		pr_debug("Do not unload fpctzappfingerprint app from tz\n");
+		goto unload_exit;
+	}
+
 	if (data->client.app_id > 0) {
 		spin_lock_irqsave(&qseecom.registered_app_list_lock, flags);
 		list_for_each_entry(ptr_app, &qseecom.registered_app_list_head,
