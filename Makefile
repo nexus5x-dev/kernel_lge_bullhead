@@ -383,7 +383,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -Wno-array-bounds \
 		   -Wno-format-truncation \
 		   -Wno-stringop-overflow \
-		   -mcpu=cortex-a57.cortex-a53 -mtune=cortex-a57.cortex-a53 -ftree-vectorize \
+		   -mcpu=cortex-a57.cortex-a53 -mtune=cortex-a57.cortex-a53 \
 		   -Wno-error=maybe-uninitialized
 
 KBUILD_AFLAGS_KERNEL :=
