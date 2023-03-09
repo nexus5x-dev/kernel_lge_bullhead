@@ -69,7 +69,6 @@ static int cpu_subsys_offline(struct device *dev)
 
 	cpu_hotplug_driver_lock();
 	ret = cpu_down(dev->id);
-	}
 	cpu_hotplug_driver_unlock();
 	return ret;
 }
