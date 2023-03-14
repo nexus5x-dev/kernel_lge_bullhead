@@ -96,6 +96,8 @@
  *
  * 7.23
  *  - add FUSE_WRITEBACK_CACHE
+ *  - add time_gran to fuse_init_out
+ *  - add reserved space to fuse_init_out
  */
 
 #ifndef _LINUX_FUSE_H
@@ -350,7 +352,7 @@ enum fuse_opcode {
 	FUSE_BATCH_FORGET  = 42,
 	FUSE_FALLOCATE     = 43,
 	FUSE_READDIRPLUS   = 44,
-	FUSE_CANONICAL_PATH= 2016,
+        FUSE_CANONICAL_PATH= 2016,
 
 	/* CUSE specific operations */
 	CUSE_INIT          = 4096,
@@ -467,10 +469,7 @@ struct fuse_create_in {
 struct fuse_open_out {
 	uint64_t	fh;
 	uint32_t	open_flags;
-        union {
-	        int32_t  lower_fd;/* lower layer file descriptor */
-                uint32_t padding;
-        };
+	int32_t         lower_fd;/* lower layer file descriptor */
 };
 
 struct fuse_release_in {
@@ -565,6 +564,9 @@ struct fuse_init_in {
 	uint32_t	flags;
 };
 
+#define FUSE_COMPAT_INIT_OUT_SIZE 8
+#define FUSE_COMPAT_22_INIT_OUT_SIZE 24
+
 struct fuse_init_out {
 	uint32_t	major;
 	uint32_t	minor;
@@ -573,6 +575,8 @@ struct fuse_init_out {
 	uint16_t	max_background;
 	uint16_t	congestion_threshold;
 	uint32_t	max_write;
+	uint32_t	time_gran;
+	uint32_t	unused[9];
 };
 
 #define CUSE_INIT_INFO_MAX 4096

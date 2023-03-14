@@ -73,6 +73,7 @@ static ssize_t fuse_shortcircuit_aio_read_write(struct kiocb *iocb,
 	if (do_write) {
 		if (!lower_file->f_op->aio_write)
 			return -EIO;
+
 		ret_val = lower_file->f_op->aio_write(iocb, iov, nr_segs, pos);
 
 		if (ret_val >= 0 || ret_val == -EIOCBQUEUED) {
@@ -82,6 +83,7 @@ static ssize_t fuse_shortcircuit_aio_read_write(struct kiocb *iocb,
 	} else {
 		if (!lower_file->f_op->aio_read)
 			return -EIO;
+
 		ret_val = lower_file->f_op->aio_read(iocb, iov, nr_segs, pos);
 		if (ret_val >= 0 || ret_val == -EIOCBQUEUED)
 			fsstack_copy_attr_atime(fuse_inode, lower_inode);
@@ -94,15 +96,13 @@ static ssize_t fuse_shortcircuit_aio_read_write(struct kiocb *iocb,
 	return ret_val;
 }
 
-ssize_t fuse_shortcircuit_aio_read(struct kiocb *iocb,
-				   const struct iovec *iov,
+ssize_t fuse_shortcircuit_aio_read(struct kiocb *iocb, const struct iovec *iov,
 				   unsigned long nr_segs, loff_t pos)
 {
 	return fuse_shortcircuit_aio_read_write(iocb, iov, nr_segs, pos, 0);
 }
 
-ssize_t fuse_shortcircuit_aio_write(struct kiocb *iocb,
-				    const struct iovec *iov,
+ssize_t fuse_shortcircuit_aio_write(struct kiocb *iocb, const struct iovec *iov,
 				    unsigned long nr_segs, loff_t pos)
 {
 	return fuse_shortcircuit_aio_read_write(iocb, iov, nr_segs, pos, 1);

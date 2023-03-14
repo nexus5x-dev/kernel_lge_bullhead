@@ -22,12 +22,10 @@
 
 void fuse_setup_shortcircuit(struct fuse_conn *fc, struct fuse_req *req);
 
-ssize_t fuse_shortcircuit_aio_read(struct kiocb *iocb,
-				   const struct iovec *iov,
+ssize_t fuse_shortcircuit_aio_read(struct kiocb *iocb, const struct iovec *iov,
 				   unsigned long nr_segs, loff_t pos);
 
-ssize_t fuse_shortcircuit_aio_write(struct kiocb *iocb,
-				    const struct iovec *iov,
+ssize_t fuse_shortcircuit_aio_write(struct kiocb *iocb, const struct iovec *iov,
 				    unsigned long nr_segs, loff_t pos);
 
 void fuse_shortcircuit_release(struct fuse_file *ff);
